@@ -40,6 +40,7 @@ class Grammar(dict):
     def __init__(self):
         super(Grammar, self).__init__()
         self.reverse = {}
+        self.terms = {}
 
     def init_var(self, var):
         if not (var in self):
@@ -48,6 +49,9 @@ class Grammar(dict):
     def add_term(self, var, leaf):
         self.init_var(var)
         self[var].append(Terminal(leaf))
+        if not (leaf in self.terms):
+            self.terms[leaf] = set([])
+        self.terms[leaf].add(var)
 
     def add_bin(self, var, left, right):
         self.init_var(var)
