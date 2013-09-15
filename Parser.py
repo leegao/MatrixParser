@@ -9,23 +9,21 @@ def initial_matrix(cnf, words):
     return MatrixRing.Matrix.lift([f(i,j) for i in range(n) for j in range(n)])
 
 if __name__ == "__main__":
-    import CNF
+    import CNF, math
     Grammar = CNF.Grammar
 
     grammar = Grammar()
-    grammar.add_term('A', 'a')
-    grammar.add_term('B', 'b')
-    grammar.add_bin('S', 'X', 'Y')
-    grammar.add_bin('X', 'X', 'A')
-    grammar.add_bin('X', 'A', 'A')
-    grammar.add_bin('Y', 'Y', 'B')
-    grammar.add_bin('Y', 'B', 'B')
+    grammar.add_term('(', '(')
+    grammar.add_term(')', ')')
+    grammar.add_bin('X', '(', 'A')
+    grammar.add_bin('A', 'X', ')')
+    grammar.add_bin('A', 'A', 'A')
+    grammar.add_bin('A', '(', ')')
 
-    A = initial_matrix(grammar, "aabb")
+    A = initial_matrix(grammar, "((()())())")
+    print A
     P = A
-    print P
-    P = P + P * P
-    print P
-    P = P + P * P
-    print P
+    for i in range(int(math.sqrt(len(A.item)))):
+        P = P + P*P
+        print P
 
