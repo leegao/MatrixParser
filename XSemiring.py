@@ -39,5 +39,6 @@ if __name__ == "__main__":
     print grammar.reverse
     X = XSemiringFactory.constructor(grammar)
 
-    a = X.lift(set(['A']))
-    print a * a
+    a = X.lift(set(['X']))
+    b = X.lift(set(['Y']))
+    print a * b

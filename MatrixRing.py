@@ -29,7 +29,7 @@ class Matrix(Semiring.Semiring):
         # assume consistency
         new_list = []
         for i in range(len(self.item)):
-            new_list.append(self.item + right.item)
+            new_list.append(self.item[i] + right.item[i])
         return Matrix.lift(new_list)
 
     def mul(self, right):
@@ -37,14 +37,19 @@ class Matrix(Semiring.Semiring):
         n = int(math.sqrt(len(self.item)))
         new_list = []
         # C = AB => c_{ij} = \sum_k a_{ik}b_{kj}
-        for i in range(n):
-            for j in range(n):
+        for j in range(n):
+            for i in range(n):
                 l = None
                 for k in range(n):
-                    x = self.item[self.idx(i,k)] * self.item[self.idx(k, j)]
+                    x = self.item[self.idx(i,k)] * right.item[self.idx(k, j)]
                     if l is None:
                         l = x
                     else:
                         l = l + x
                 new_list.append(l)
         return Matrix.lift(new_list)
+
+if __name__ == "__main__":
+    A = Matrix([1,2,3,4])
+    B = A * A
+    print A + A
