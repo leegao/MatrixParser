@@ -72,6 +72,12 @@ class Grammar(dict):
         except:
             return set([])
 
+    def term_of(self, term):
+        try:
+            return self.terms[term]
+        except:
+            return set([])
+
 if __name__ == "__main__":
     '''
 S -> XY

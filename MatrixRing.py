@@ -9,6 +9,16 @@ class Matrix(Semiring.Semiring):
     # 0 3 6
     # 1 4 7
     # 2 5 8
+    def __str__(self):
+        n = int(math.sqrt(len(self.item)))
+        s = ("%s\t"*n) + "\n"
+        s = s * n
+        l = []
+        for i in range(n):
+            for j in range(n):
+                l.append(self.item[self.idx(i,j)])
+        return s%(tuple(l))
+
     def idx(self, i, j):
         n = int(math.sqrt(len(self.item)))
         return (i + j*n)
@@ -19,7 +29,7 @@ class Matrix(Semiring.Semiring):
         # assume consistency
         new_list = []
         for i in range(len(self.item)):
-            new_list.append(self.item * right.item)
+            new_list.append(self.item + right.item)
         return Matrix.lift(new_list)
 
     def mul(self, right):
@@ -29,8 +39,12 @@ class Matrix(Semiring.Semiring):
         # C = AB => c_{ij} = \sum_k a_{ik}b_{kj}
         for i in range(n):
             for j in range(n):
-                l = []
+                l = None
                 for k in range(n):
-                    l.append(self.item[self.idx(i,k)] * self.item[self.idx(k, j)])
-                new_list.append(sum(l))
+                    x = self.item[self.idx(i,k)] * self.item[self.idx(k, j)]
+                    if l is None:
+                        l = x
+                    else:
+                        l = l + x
+                new_list.append(l)
         return Matrix.lift(new_list)

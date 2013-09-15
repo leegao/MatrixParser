@@ -15,11 +15,11 @@ class XSemiringFactory(object):
                         vars = cnf.left_of(X, Y)
                         for V in vars:
                             s.add(V)
-                return s
+                return self.lift(s)
 
             def add(self, other):
                 # join of left and right
-                return set(self.item + other.item)
+                return self.lift((self.item.union(other.item)))
 
         return XSemiring
 
