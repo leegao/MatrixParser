@@ -24,8 +24,8 @@ if __name__ == "__main__":
     A = initial_matrix(grammar, "aabb")
     P = A
     print P
-    P = P + P*A
+    P = P + P * P
     print P
-    P = P + P*A + A*P
+    P = P + P * P
     print P
 

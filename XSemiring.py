@@ -7,6 +7,9 @@ class XSemiringFactory(object):
     @classmethod
     def constructor(cls, cnf):
         class XSemiring(Semiring):
+            def __str__(self):
+                return str(list(self.item))
+
             def mul(self, other):
                 # join of all left variables of
                 s = set([])
