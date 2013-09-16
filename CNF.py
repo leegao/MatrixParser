@@ -49,9 +49,8 @@ class Grammar(dict):
     def add_term(self, var, leaf):
         self.init_var(var)
         self[var].append(Terminal(leaf))
-        if not (leaf in self.terms):
-            self.terms[leaf] = set([])
-        self.terms[leaf].add(var)
+        
+        self.terms[leaf] = var
 
     def add_bin(self, var, left, right):
         self.init_var(var)
@@ -76,7 +75,7 @@ class Grammar(dict):
         try:
             return self.terms[term]
         except:
-            return set([])
+            return None
 
 if __name__ == "__main__":
     '''

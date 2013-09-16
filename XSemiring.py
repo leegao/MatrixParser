@@ -13,11 +13,11 @@ class XSemiringFactory(object):
             def mul(self, other):
                 # join of all left variables of
                 s = set([])
-                for X in self.item:
-                    for Y in other.item:
-                        vars = cnf.left_of(X, Y)
+                for Xx in self.item:
+                    for Yy in other.item:
+                        vars = cnf.left_of(Xx[0], Yy[0])
                         for V in vars:
-                            s.add(V)
+                            s.add((V, Xx, Yy))
                 return self.lift(s)
 
             def add(self, other):
@@ -25,6 +25,25 @@ class XSemiringFactory(object):
                 return self.lift((self.item.union(other.item)))
 
         return XSemiring
+
+def dot(tree):
+    global idd
+    idd = 0
+    def __helper__(tree):
+        global idd
+        id = idd
+        idd += 1
+        if len(tree) == 1:
+            # leaf
+            return ('n%s[label="%s"]\n'%(id,tree[0]), id)
+        else:
+            # binary
+            left = __helper__(tree[1])
+            right = __helper__(tree[2])
+
+            return ('n%s[label="%s"]\n n%s -> n%s\n n%s -> n%s\n %s %s'%(id, tree[0], id, left[1], id, right[1], left[0], right[0]), id)
+
+    return "digraph {\n" + __helper__(tree)[0] + "}"
 
 if __name__ == "__main__":
     import CNF
@@ -42,6 +61,6 @@ if __name__ == "__main__":
     print grammar.reverse
     X = XSemiringFactory.constructor(grammar)
 
-    a = X.lift(set(['X']))
-    b = X.lift(set(['Y']))
+    a = X.lift({('X', ('A', 'a'), ('A', 'a'))})
+    b = X.lift({('Y', ('B', 'b'), ('B', 'b'))})
     print a * b
